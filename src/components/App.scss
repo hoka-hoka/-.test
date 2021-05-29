@@ -1,0 +1,43 @@
+.employees {
+  padding: 20px;
+
+  &_hidden {
+    display: none;
+  }
+
+  &__list {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+  }
+
+  &__line {
+    margin-bottom: 20px;
+    padding-top: 5px;
+    overflow: hidden;
+    vertical-align: baseline;
+    background-color: $black-5;
+    border-top: 1px solid $black-25;
+  }
+
+  &__fname {
+    padding: 5px 20px 14px;
+    text-align: left;
+  }
+
+  &__lname {
+    padding: 5px 0 14px;
+    text-align: left;
+  }
+
+  &__add {
+    padding: 10px 20px;
+    color: white;
+    background-color: $blue;
+    border-radius: 6px;
+
+    &:hover {
+      background-color: $blue-alpha;
+    }
+  }
+}
