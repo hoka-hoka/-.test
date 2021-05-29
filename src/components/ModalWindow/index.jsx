@@ -6,6 +6,7 @@ const ModalWindow = ({
   title,
   view,
   persons,
+  tempID,
   render,
   updateState,
   getData,
@@ -16,7 +17,7 @@ const ModalWindow = ({
     id: 0,
   });
   const [bubbling, setBubbling] = useState(false);
-  const tempId = useRef(persons.length + 1);
+  const mockID = useRef();
 
   const addPerson = () => {
     const { firstName, lastName } = fieldData;
@@ -29,10 +30,11 @@ const ModalWindow = ({
     persons.push({
       firstName,
       lastName,
-      id: tempId.current,
+      id: mockID.current,
       image: 'img/ava.png',
     });
-    tempId.current += 1;
+    mockID.current += 1;
+    updateState({ update: false }).tempID = mockID.current;
   };
 
   const enrichPerson = () => {
@@ -46,6 +48,10 @@ const ModalWindow = ({
       persons[foundFieldIndex] = { ...editField, firstName, lastName };
     }
   };
+
+  useEffect(() => {
+    mockID.current = tempID;
+  }, []);
 
   useEffect(() => {
     setBubbling(false);
@@ -99,6 +105,7 @@ ModalWindow.defaultProps = {
   title: '',
   view: viewMode.load,
   persons: [],
+  tempId: 0,
   render: (f) => f,
   updateState: (f) => f,
   getData: (f) => f,

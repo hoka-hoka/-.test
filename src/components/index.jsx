@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import { viewMode, baseURL, lang, langData } from '../constants';
 import Sprite from '../common/Sprite';
 import Preloader from '../common/Preloader';
@@ -16,12 +16,17 @@ export default class App extends Component {
       view: viewMode.load,
       curEmployee: { firstName: '', lastName: '' },
       persons: [],
+      tempID: 0,
     };
   }
 
   componentDidMount = () => {
     this.getData('persons').then((resp) => {
-      this.setState({ persons: resp, view: viewMode.list });
+      this.setState({
+        persons: resp,
+        view: viewMode.list,
+        tempID: resp.length + 1,
+      });
     });
   };
 
@@ -71,7 +76,7 @@ export default class App extends Component {
   };
 
   render() {
-    const { view, curEmployee, persons } = this.state;
+    const { view, curEmployee, persons, tempID } = this.state;
     return (
       <>
         {view == viewMode.load ? <Preloader /> : false}
@@ -116,6 +121,7 @@ export default class App extends Component {
           <ModalWindow
             title={lang[langData.create]}
             persons={persons}
+            tempID={tempID}
             view={view}
             updateState={({ update }) => this.updateState({ update })}
             getData={this.getData}
