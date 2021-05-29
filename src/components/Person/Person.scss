@@ -1,0 +1,48 @@
+.person {
+  overflow: hidden;
+  border-top: 1px solid $black-25;
+
+  &:last-child {
+    border-bottom: 1px solid $black-25;
+  }
+
+  &__icon {
+    width: 1%;
+    padding: 5px 0;
+    white-space: nowrap;
+  }
+
+  &__ava {
+    width: 40px;
+    height: auto;
+    vertical-align: inherit;
+    border-radius: 50%;
+  }
+
+  &__fname {
+    padding-left: 20px;
+  }
+
+  &__btns {
+    width: 1%;
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align: right;
+  }
+
+  &__edit {
+    margin-right: 4px;
+  }
+
+  &__del {
+    svg {
+      fill: gray;
+    }
+    &:hover,
+    &:focus-visible {
+      svg {
+        fill: $red;
+      }
+    }
+  }
+}
