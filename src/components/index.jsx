@@ -21,7 +21,7 @@ export default class App extends Component {
 
   componentDidMount = () => {
     this.getData('persons').then((resp) => {
-      this.setState({ persons: resp, view: viewMode.add });
+      this.setState({ persons: resp, view: viewMode.list });
     });
   };
 
@@ -72,9 +72,6 @@ export default class App extends Component {
 
   render() {
     const { view, curEmployee, persons } = this.state;
-
-    console.log(persons);
-
     return (
       <>
         {view == viewMode.load ? <Preloader /> : false}
@@ -114,10 +111,12 @@ export default class App extends Component {
             {lang[langData.add]}
           </button>
         </div>
+
         {view == viewMode.add && (
           <ModalWindow
             title={lang[langData.create]}
             persons={persons}
+            view={view}
             updateState={({ update }) => this.updateState({ update })}
             getData={this.getData}
             render={(update, bubbling) => (
@@ -125,17 +124,23 @@ export default class App extends Component {
             )}
           />
         )}
-        {/* {view == viewMode.edit && (
+
+        {view == viewMode.edit && (
           <ModalWindow
             title={lang[langData.edit]}
+            persons={persons}
+            view={view}
             updateState={({ update }) => this.updateState({ update })}
-          >
-            <EditPerson
-              firstName={curEmployee.firstName}
-              lastName={curEmployee.lastName}
-            />
-          </ModalWindow>
-        )} */}
+            getData={this.getData}
+            render={(update, bubbling) => (
+              <EditPerson
+                curEmployee={curEmployee}
+                setFieldData={update}
+                bubbling={bubbling}
+              />
+            )}
+          />
+        )}
         <Sprite />
       </>
     );

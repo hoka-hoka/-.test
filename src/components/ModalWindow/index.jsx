@@ -2,13 +2,30 @@ import './ModalWindow.scss';
 import React, { useEffect, useState, useRef } from 'react';
 import { lang, langData, viewMode } from '../../constants';
 
-const ModalWindow = ({ title, persons, render, updateState, getData }) => {
-  const [fieldData, setFieldData] = useState({ firstName: '', lastName: '' });
+const ModalWindow = ({
+  title,
+  view,
+  persons,
+  render,
+  updateState,
+  getData,
+}) => {
+  const [fieldData, setFieldData] = useState({
+    firstName: '',
+    lastName: '',
+    id: 0,
+  });
   const [bubbling, setBubbling] = useState(false);
   const tempId = useRef(persons.length + 1);
 
-  const enrichPersons = () => {
+  const addPerson = () => {
     const { firstName, lastName } = fieldData;
+    const data = {
+      firstName,
+      lastName,
+      image: 'img/ava.png',
+    };
+    // getData('persons', data);
     persons.push({
       firstName,
       lastName,
@@ -18,6 +35,18 @@ const ModalWindow = ({ title, persons, render, updateState, getData }) => {
     tempId.current += 1;
   };
 
+  const enrichPerson = () => {
+    const { firstName, lastName, id } = fieldData;
+    if (!id) {
+      return;
+    }
+    const foundFieldIndex = persons.findIndex((field) => field.id == id);
+    if (~foundFieldIndex) {
+      const editField = persons[foundFieldIndex];
+      persons[foundFieldIndex] = { ...editField, firstName, lastName };
+    }
+  };
+
   useEffect(() => {
     setBubbling(false);
     const { firstName, lastName } = fieldData;
@@ -25,13 +54,16 @@ const ModalWindow = ({ title, persons, render, updateState, getData }) => {
     if (!isFilled) {
       return;
     }
-    const data = {
-      firstName,
-      lastName,
-      image: 'img/ava.png',
-    };
-    // getData('persons', data);
-    enrichPersons();
+    switch (view) {
+      case viewMode.add:
+        addPerson();
+        break;
+      case viewMode.edit:
+        enrichPerson();
+        break;
+      default:
+        break;
+    }
   }, [fieldData]);
 
   const comeBack = () => {
@@ -65,6 +97,7 @@ const ModalWindow = ({ title, persons, render, updateState, getData }) => {
 
 ModalWindow.defaultProps = {
   title: '',
+  view: viewMode.load,
   persons: [],
   render: (f) => f,
   updateState: (f) => f,
