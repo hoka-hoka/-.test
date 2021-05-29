@@ -45,6 +45,7 @@ Person.defaultProps = {
     fname: '',
   },
   editEmployee: (f) => f,
+  delEmployee: (f) => f,
 };
 
 export default Person;

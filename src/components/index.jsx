@@ -16,7 +16,6 @@ export default class App extends Component {
       view: viewMode.load,
       curEmployee: { firstName: '', lastName: '' },
       persons: [],
-      tempID: 0,
     };
   }
 
@@ -25,7 +24,6 @@ export default class App extends Component {
       this.setState({
         persons: resp,
         view: viewMode.list,
-        tempID: resp.length + 1,
       });
     });
   };
@@ -62,9 +60,17 @@ export default class App extends Component {
     this.setState({ view: viewMode.edit, curEmployee: person });
   };
 
-  delEmployee = (index) => {
+  delEmployee = (person) => {
+    this.getData('persons', {
+      id: person.id,
+      del: 1,
+    }).then((resp) => {
+      if (!resp?.success) {
+        console.error('Неверный формат данных удаления');
+      }
+    });
     this.setState(({ persons }) => ({
-      persons: persons.filter((_, pos) => pos != index),
+      persons: persons.filter((item) => item.id != person.id),
     }));
   };
 
@@ -76,7 +82,7 @@ export default class App extends Component {
   };
 
   render() {
-    const { view, curEmployee, persons, tempID } = this.state;
+    const { view, curEmployee, persons } = this.state;
     return (
       <>
         {view == viewMode.load ? <Preloader /> : false}
@@ -98,12 +104,12 @@ export default class App extends Component {
               </tr>
             </thead>
             <tbody>
-              {persons.map((person, index) => (
+              {persons.map((person) => (
                 <Person
                   userData={person}
                   key={person.id}
                   editEmployee={() => this.editEmployee(person)}
-                  delEmployee={() => this.delEmployee(index)}
+                  delEmployee={() => this.delEmployee(person)}
                 />
               ))}
             </tbody>
@@ -121,7 +127,6 @@ export default class App extends Component {
           <ModalWindow
             title={lang[langData.create]}
             persons={persons}
-            tempID={tempID}
             view={view}
             updateState={({ update }) => this.updateState({ update })}
             getData={this.getData}

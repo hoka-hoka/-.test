@@ -27,41 +27,6 @@
       "image": "img/ava.png",
       "apiId": "v1",
       "id": 4
-    },
-    {
-      "firstName": "Ангелина",
-      "lastName": "Григорьева",
-      "image": "img/ava.png",
-      "apiId": "v1",
-      "id": 5
-    },
-    {
-      "firstName": "q",
-      "lastName": "q",
-      "image": "img/ava.png",
-      "apiId": "v1",
-      "id": 6
-    },
-    {
-      "firstName": "dd",
-      "lastName": "dd",
-      "image": "img/ava.png",
-      "apiId": "v1",
-      "id": 7
-    },
-    {
-      "firstName": "ww",
-      "lastName": "ww",
-      "image": "img/ava.png",
-      "apiId": "v1",
-      "id": 8
-    },
-    {
-      "firstName": "rr",
-      "lastName": "rr",
-      "image": "img/ava.png",
-      "apiId": "v1",
-      "id": 9
     }
   ]
 }

@@ -1,12 +1,11 @@
 import './ModalWindow.scss';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { lang, langData, viewMode } from '../../constants';
 
 const ModalWindow = ({
   title,
   view,
   persons,
-  tempID,
   render,
   updateState,
   getData,
@@ -17,7 +16,6 @@ const ModalWindow = ({
     id: 0,
   });
   const [bubbling, setBubbling] = useState(false);
-  const mockID = useRef();
 
   const addPerson = () => {
     const { firstName, lastName } = fieldData;
@@ -26,15 +24,13 @@ const ModalWindow = ({
       lastName,
       image: 'img/ava.png',
     };
-    // getData('persons', data);
-    persons.push({
-      firstName,
-      lastName,
-      id: mockID.current,
-      image: 'img/ava.png',
+    getData('persons', data).then((resp) => {
+      if (!resp?.success) {
+        console.error('Пользователь уже существует');
+      } else {
+        persons.push(resp.d);
+      }
     });
-    mockID.current += 1;
-    updateState({ update: false }).tempID = mockID.current;
   };
 
   const enrichPerson = () => {
@@ -42,16 +38,24 @@ const ModalWindow = ({
     if (!id) {
       return;
     }
-    const foundFieldIndex = persons.findIndex((field) => field.id == id);
+    const data = {
+      id: id,
+      firstName,
+      lastName,
+      image: 'img/ava.png',
+    };
+    getData('persons', data).then((resp) => {
+      if (!resp?.success) {
+        console.error('Неверный формат данных замещения');
+      }
+    });
+
+    const foundFieldIndex = persons.find((field) => field.id == id);
     if (~foundFieldIndex) {
       const editField = persons[foundFieldIndex];
       persons[foundFieldIndex] = { ...editField, firstName, lastName };
     }
   };
-
-  useEffect(() => {
-    mockID.current = tempID;
-  }, []);
 
   useEffect(() => {
     setBubbling(false);
@@ -105,7 +109,6 @@ ModalWindow.defaultProps = {
   title: '',
   view: viewMode.load,
   persons: [],
-  tempId: 0,
   render: (f) => f,
   updateState: (f) => f,
   getData: (f) => f,
