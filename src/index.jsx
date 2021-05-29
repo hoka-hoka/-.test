@@ -1,5 +1,6 @@
+import './scss/normalize.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Template from './components';
+import App from './components';
 
-ReactDOM.render(<Template />, document.querySelector('#root'));
+ReactDOM.render(<App />, document.querySelector('#root'));
