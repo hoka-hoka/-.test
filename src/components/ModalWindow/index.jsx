@@ -50,7 +50,7 @@ const ModalWindow = ({
       }
     });
 
-    const foundFieldIndex = persons.find((field) => field.id == id);
+    const foundFieldIndex = persons.findIndex((field) => field.id == id);
     if (~foundFieldIndex) {
       const editField = persons[foundFieldIndex];
       persons[foundFieldIndex] = { ...editField, firstName, lastName };
