@@ -1,12 +1,45 @@
 import './ModalWindow.scss';
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { lang, langData, viewMode } from '../../constants';
 
-const ModalWindow = ({ title, children, updateState }) => {
-  const [state, setState] = useState();
+const ModalWindow = ({ title, persons, render, updateState, getData }) => {
+  const [fieldData, setFieldData] = useState({ firstName: '', lastName: '' });
+  const [bubbling, setBubbling] = useState(false);
+  const tempId = useRef(persons.length + 1);
+
+  const enrichPersons = () => {
+    const { firstName, lastName } = fieldData;
+    persons.push({
+      firstName,
+      lastName,
+      id: tempId.current,
+      image: 'img/ava.png',
+    });
+    tempId.current += 1;
+  };
+
+  useEffect(() => {
+    setBubbling(false);
+    const { firstName, lastName } = fieldData;
+    const isFilled = firstName && lastName;
+    if (!isFilled) {
+      return;
+    }
+    const data = {
+      firstName,
+      lastName,
+      image: 'img/ava.png',
+    };
+    // getData('persons', data);
+    enrichPersons();
+  }, [fieldData]);
 
   const comeBack = () => {
     updateState({ update: true }).view = viewMode.list;
+  };
+
+  const savePerson = () => {
+    setBubbling(true);
   };
 
   return (
@@ -18,9 +51,9 @@ const ModalWindow = ({ title, children, updateState }) => {
           <button className="modal__back" type="button" onClick={comeBack}>
             {lang[langData.back]}
           </button>
-          {children}
+          {render(setFieldData, bubbling)}
           <div className="modal__btn">
-            <button className="modal__save" type="button">
+            <button className="modal__save" type="button" onClick={savePerson}>
               {lang[langData.save]}
             </button>
           </div>
@@ -32,8 +65,10 @@ const ModalWindow = ({ title, children, updateState }) => {
 
 ModalWindow.defaultProps = {
   title: '',
-  children: <></>,
+  persons: [],
+  render: (f) => f,
   updateState: (f) => f,
+  getData: (f) => f,
 };
 
 export default ModalWindow;

@@ -21,12 +21,26 @@ export default class App extends Component {
 
   componentDidMount = () => {
     this.getData('persons').then((resp) => {
-      this.setState({ persons: resp, view: viewMode.list });
+      this.setState({ persons: resp, view: viewMode.add });
     });
   };
 
-  getData = async (method) => {
-    const resp = await fetch(`${baseURL}/api/v1/${method}`);
+  getData = async (method, data) => {
+    const resp = await fetch(
+      `${baseURL}/api/v1/${method}`,
+      data
+        ? {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body: JSON.stringify(data),
+          }
+        : {},
+    );
     if (!resp?.ok) {
       this.setState({ error: true });
       return new Error('Ответ на запрос пустой');
@@ -58,6 +72,9 @@ export default class App extends Component {
 
   render() {
     const { view, curEmployee, persons } = this.state;
+
+    console.log(persons);
+
     return (
       <>
         {view == viewMode.load ? <Preloader /> : false}
@@ -100,12 +117,15 @@ export default class App extends Component {
         {view == viewMode.add && (
           <ModalWindow
             title={lang[langData.create]}
+            persons={persons}
             updateState={({ update }) => this.updateState({ update })}
-          >
-            <NewPerson />
-          </ModalWindow>
+            getData={this.getData}
+            render={(update, bubbling) => (
+              <NewPerson setFieldData={update} bubbling={bubbling} />
+            )}
+          />
         )}
-        {view == viewMode.edit && (
+        {/* {view == viewMode.edit && (
           <ModalWindow
             title={lang[langData.edit]}
             updateState={({ update }) => this.updateState({ update })}
@@ -115,7 +135,7 @@ export default class App extends Component {
               lastName={curEmployee.lastName}
             />
           </ModalWindow>
-        )}
+        )} */}
         <Sprite />
       </>
     );
