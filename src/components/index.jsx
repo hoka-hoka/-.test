@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react';
+import React, { Component } from 'react';
 import { viewMode, baseURL, lang, langData } from '../constants';
 import Preloader from '../common/Preloader';
 import Notification from '../common/Notification';
@@ -86,7 +86,6 @@ export default class App extends Component {
   };
 
   editEmployee = (person, target) => {
-    console.log(target);
     this.setState({
       view: viewMode.edit,
       curEmployee: person,

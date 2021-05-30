@@ -19,38 +19,38 @@
     max-height: max-content;
     margin: auto;
     margin-top: 40px;
-    border: 2px solid $black-50;
-    border-radius: 4px;
-  }
+    border-radius: 8px;
 
-  &__title {
-    margin: 0;
-    padding: 5px;
-    color: white;
-    font-weight: bold;
-    font-size: rem(14);
-
-    &:after {
-      position: absolute;
-      top: 0;
-      right: 0;
-      left: 0;
-      z-index: -1;
-      height: 30px;
-      background: $black-50;
-      content: '';
+    @media (max-width: 425px) {
+      height: 100%;
+      margin-top: unset;
+      border-radius: unset;
     }
   }
 
+  &__title {
+    position: relative;
+    margin: 0;
+    padding: 14px 10px 10px;
+    color: white;
+    font-weight: bold;
+    font-size: rem(16);
+    background: $black-50;
+    border-radius: 8px 8px 0 0;
+  }
+
   &__menu {
-    padding: 10px;
+    padding: 10px 20px;
     background-color: white;
+
+    @media (max-width: 425px) {
+      height: 100%;
+    }
   }
 
   &__back {
-    margin-bottom: 10px;
+    margin-bottom: 14px;
     color: $blue;
-    font-size: rem(12);
     text-decoration: underline;
 
     &:hover {
@@ -63,7 +63,7 @@
   }
 
   &__save {
-    padding: 5px 20px;
+    padding: 10px 25px;
     color: white;
     background-color: $blue;
     border-radius: 6px;

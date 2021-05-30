@@ -21,6 +21,16 @@
 
   &__fname {
     padding-left: 20px;
+
+    @media (max-width: 425px) {
+      font-size: rem(14);
+    }
+  }
+
+  &__sname {
+    @media (max-width: 425px) {
+      font-size: rem(14);
+    }
   }
 
   &__btns {
@@ -31,7 +41,18 @@
   }
 
   &__edit {
-    margin-right: 4px;
+    margin-right: 14px;
+
+    svg {
+      fill: gray;
+    }
+
+    &:hover,
+    &:focus-visible {
+      svg {
+        fill: $blue;
+      }
+    }
   }
 
   &__del {

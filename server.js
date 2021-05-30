@@ -28,7 +28,9 @@ const insert = (table, data) => {
 };
 
 const generateID = (table) => {
-  const rezult = table.value().slice(-1)[0].id + 1;
+  const lastRecord = table.value().slice(-1)[0];
+
+  const rezult = lastRecord ? lastRecord.id + 1 : 1;
   return rezult;
 };
 

@@ -1,5 +1,9 @@
 .employees {
-  padding: 20px;
+  padding: 20px 40px;
+
+  @media (max-width: 425px) {
+    padding: 10px;
+  }
 
   &_hidden {
     display: none;
