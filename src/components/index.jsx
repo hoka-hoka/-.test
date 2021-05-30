@@ -16,7 +16,10 @@ export default class App extends Component {
       view: viewMode.load,
       curEmployee: { firstName: '', lastName: '' },
       persons: [],
-      error: false,
+      notice: {
+        error: false,
+        message: '',
+      },
       bubbling: false,
     };
   }
@@ -30,10 +33,12 @@ export default class App extends Component {
     });
   };
 
-  componentDidUpdate = (prevProps, prevState) => {
-    if (prevState.bubbling) {
-      this.setState({ bubbling: false });
+  componentDidUpdate = (_, prevState) => {
+    const { bubbling } = this.state;
+    if (prevState.bubbling == bubbling) {
+      return;
     }
+    this.setState({ bubbling: false });
   };
 
   getData = async (method, data) => {
@@ -53,7 +58,7 @@ export default class App extends Component {
         : {},
     );
     if (!resp?.ok) {
-      this.setState({ error: true });
+      // this.setState({ error: true });
       return new Error('Ответ на запрос пустой');
     }
     return resp.json();
@@ -84,13 +89,13 @@ export default class App extends Component {
 
   updateState = ({ update } = {}) => {
     if (update) {
-      this.forceUpdate();
+      return (params) => this.setState(params);
     }
     return this.state;
   };
 
   render() {
-    const { view, curEmployee, persons, bubbling, error } = this.state;
+    const { view, curEmployee, persons, bubbling, notice } = this.state;
     return (
       <>
         {view == viewMode.load ? <Preloader /> : false}
@@ -139,9 +144,7 @@ export default class App extends Component {
             bubbling={bubbling}
             updateState={({ update }) => this.updateState({ update })}
             getData={this.getData}
-            render={(update, bubbling) => (
-              <NewPerson setFieldData={update} bubbling={bubbling} />
-            )}
+            render={(update) => <NewPerson setFieldData={update} />}
           />
         )}
 
@@ -152,20 +155,12 @@ export default class App extends Component {
             view={view}
             updateState={({ update }) => this.updateState({ update })}
             getData={this.getData}
-            render={(update, bubbling) => (
-              <EditPerson
-                curEmployee={curEmployee}
-                setFieldData={update}
-                bubbling={bubbling}
-              />
+            render={(update) => (
+              <EditPerson curEmployee={curEmployee} setFieldData={update} />
             )}
           />
         )}
-        <Notification
-          bubbling={bubbling}
-          error={error}
-          message={'Error text'}
-        />
+        <Notification bubbling={bubbling} notice={notice} />
         <Sprite />
       </>
     );

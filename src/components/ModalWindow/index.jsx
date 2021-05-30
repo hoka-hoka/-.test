@@ -1,11 +1,10 @@
 import './ModalWindow.scss';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { lang, langData, viewMode } from '../../constants';
 
 const ModalWindow = ({
   title,
   view,
-  bubbling,
   persons,
   render,
   updateState,
@@ -26,10 +25,18 @@ const ModalWindow = ({
     };
     getData('persons', data).then((resp) => {
       if (!resp?.success) {
-        console.error('Пользователь уже существует');
+        updateState({ update: false }).notice = {
+          error: true,
+          message: lang[langData.empError],
+        };
       } else {
         persons.push(resp.d);
+        updateState({ update: false }).notice = {
+          error: false,
+          message: lang[langData.createEmp],
+        };
       }
+      updateState({ update: true })({ bubbling: true });
     });
   };
 
@@ -46,8 +53,17 @@ const ModalWindow = ({
     };
     getData('persons', data).then((resp) => {
       if (!resp?.success) {
-        console.error('Неверный формат данных замещения');
+        updateState({ update: false }).notice = {
+          error: true,
+          message: lang[langData.fillingError],
+        };
+      } else {
+        updateState({ update: false }).notice = {
+          error: false,
+          message: lang[langData.update],
+        };
       }
+      updateState({ update: true })({ bubbling: true });
     });
 
     const foundFieldIndex = persons.findIndex((field) => field.id == id);
@@ -60,9 +76,12 @@ const ModalWindow = ({
   const savePerson = () => {
     const { firstName, lastName } = fieldData;
     const isFilled = firstName && lastName;
-    updateState({ update: false }).bubbling = true;
     if (!isFilled) {
-      updateState({ update: true }).error = true;
+      updateState({ update: false }).notice = {
+        error: true,
+        message: lang[langData.fillingError],
+      };
+      updateState({ update: true })({ bubbling: true });
     } else {
       switch (view) {
         case viewMode.add:
@@ -74,12 +93,11 @@ const ModalWindow = ({
         default:
           break;
       }
-      updateState({ update: true }).error = false;
     }
   };
 
   const comeBack = () => {
-    updateState({ update: true }).view = viewMode.list;
+    updateState({ update: true })({ view: viewMode.list });
   };
 
   return (
@@ -110,7 +128,6 @@ ModalWindow.defaultProps = {
   render: (f) => f,
   updateState: (f) => f,
   getData: (f) => f,
-  bubbling: false,
 };
 
 export default ModalWindow;

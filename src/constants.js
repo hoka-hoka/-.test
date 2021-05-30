@@ -17,6 +17,10 @@ const lang = [
   'Введите фамилию сотрудника',
   'Сохранить',
   'Редактировать сотрудника',
+  'Ошибка заполнения',
+  'Сотрудник создан',
+  'Сотрудник уже существует',
+  'Данные обновлены',
 ];
 
 const langData = {
@@ -29,6 +33,10 @@ const langData = {
   inpLastName: 6,
   save: 7,
   edit: 8,
+  fillingError: 9,
+  createEmp: 10,
+  empError: 11,
+  update: 12,
 };
 
 export { viewMode, baseURL, lang, langData };

@@ -3,19 +3,17 @@ import React, { useState, useEffect } from 'react';
 
 import { lang, langData } from '../../constants';
 
-const EditPerson = ({ curEmployee, setFieldData, bubbling }) => {
+const EditPerson = ({ curEmployee, setFieldData }) => {
   const [fname, setFname] = useState(curEmployee.firstName);
   const [lname, setLname] = useState(curEmployee.lastName);
 
   useEffect(() => {
-    if (bubbling) {
-      setFieldData({
-        firstName: fname,
-        lastName: lname,
-        id: curEmployee.id,
-      });
-    }
-  }, [bubbling]);
+    setFieldData({
+      firstName: fname,
+      lastName: lname,
+      id: curEmployee.id,
+    });
+  }, [fname, lname]);
 
   const writeFieldData = (val, index) => {
     if (!index) {
@@ -48,7 +46,6 @@ EditPerson.defaultProps = {
     lastName: '',
   },
   setFieldData: (f) => f,
-  bubbling: false,
 };
 
 export default EditPerson;

@@ -1,23 +1,23 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './Notification.scss';
 
-const Notification = ({ error, message, bubbling }) => {
-  const [notice, setNotice] = useState([]);
+const Notification = ({ notice, bubbling }) => {
+  const [noticeData, setNoticeData] = useState([]);
   const noticeID = useRef(1);
 
   const createNotice = () => {
     const params = {
       id: noticeID.current,
-      message: noticeID.current,
-      status: error ? 'notice__item_wrong' : 'notice__item_correct',
+      message: notice.message,
+      status: notice.error ? 'notice__item_wrong' : 'notice__item_correct',
     };
-    setNotice((prevState) => [{ ...params }, ...prevState]);
+    setNoticeData((prevState) => [{ ...params }, ...prevState]);
     noticeID.current += 1;
   };
 
   const deleteNotice = () => {
     setTimeout(() => {
-      setNotice((prevState) => prevState.splice(0, prevState.length - 1));
+      setNoticeData((prevState) => prevState.splice(0, prevState.length - 1));
     }, 2000);
   };
 
@@ -25,19 +25,18 @@ const Notification = ({ error, message, bubbling }) => {
     if (!bubbling) {
       return;
     }
-
     createNotice();
   }, [bubbling]);
 
   useEffect(() => {
-    if (notice.length) {
+    if (noticeData.length) {
       deleteNotice();
     }
   }, [noticeID.current]);
 
   return (
     <div className={`notice notice_top notice_left`}>
-      {notice.map((note) => (
+      {noticeData.map((note) => (
         <div key={note.id} className={`notice__item ${note.status}`}>
           <div className="notice__text">{note.message}</div>
         </div>
@@ -47,8 +46,7 @@ const Notification = ({ error, message, bubbling }) => {
 };
 
 Notification.defaultProps = {
-  error: false,
-  bubbling: false,
+  notice: { error: false, message: '' },
   message: 'message text',
 };
 

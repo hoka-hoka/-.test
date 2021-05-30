@@ -7,9 +7,11 @@
     position: relative;
     width: 0;
     margin: auto;
-    margin-top: -33px;
+    margin-top: -30px;
     margin-bottom: 14px;
     color: transparent;
+    font-size: rem(14);
+    letter-spacing: -8px;
     background: transparent;
     animation: drop 0.4s forwards 0.2s, shift 1s forwards 1.5s;
 
@@ -27,6 +29,7 @@
   }
 
   &__text {
+    white-space: nowrap;
   }
 
   &_top {
@@ -45,6 +48,8 @@
     margin-top: 0;
     padding: 10px 20px;
     color: white;
+
+    letter-spacing: normal;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   }
 }
