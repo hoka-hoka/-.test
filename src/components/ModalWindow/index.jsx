@@ -5,6 +5,7 @@ import { lang, langData, viewMode } from '../../constants';
 const ModalWindow = ({
   title,
   view,
+  bubbling,
   persons,
   render,
   updateState,
@@ -15,7 +16,6 @@ const ModalWindow = ({
     lastName: '',
     id: 0,
   });
-  const [bubbling, setBubbling] = useState(false);
 
   const addPerson = () => {
     const { firstName, lastName } = fieldData;
@@ -57,31 +57,29 @@ const ModalWindow = ({
     }
   };
 
-  useEffect(() => {
-    setBubbling(false);
+  const savePerson = () => {
     const { firstName, lastName } = fieldData;
     const isFilled = firstName && lastName;
+    updateState({ update: false }).bubbling = true;
     if (!isFilled) {
-      return;
+      updateState({ update: true }).error = true;
+    } else {
+      switch (view) {
+        case viewMode.add:
+          addPerson();
+          break;
+        case viewMode.edit:
+          enrichPerson();
+          break;
+        default:
+          break;
+      }
+      updateState({ update: true }).error = false;
     }
-    switch (view) {
-      case viewMode.add:
-        addPerson();
-        break;
-      case viewMode.edit:
-        enrichPerson();
-        break;
-      default:
-        break;
-    }
-  }, [fieldData]);
+  };
 
   const comeBack = () => {
     updateState({ update: true }).view = viewMode.list;
-  };
-
-  const savePerson = () => {
-    setBubbling(true);
   };
 
   return (
@@ -93,7 +91,7 @@ const ModalWindow = ({
           <button className="modal__back" type="button" onClick={comeBack}>
             {lang[langData.back]}
           </button>
-          {render(setFieldData, bubbling)}
+          {render(setFieldData)}
           <div className="modal__btn">
             <button className="modal__save" type="button" onClick={savePerson}>
               {lang[langData.save]}
@@ -112,6 +110,7 @@ ModalWindow.defaultProps = {
   render: (f) => f,
   updateState: (f) => f,
   getData: (f) => f,
+  bubbling: false,
 };
 
 export default ModalWindow;

@@ -1,10 +1,10 @@
 import React, { Component, createRef } from 'react';
 import { viewMode, baseURL, lang, langData } from '../constants';
-import Sprite from '../common/Sprite';
 import Preloader from '../common/Preloader';
+import Notification from '../common/Notification';
+import Sprite from '../common/Sprite';
 import Person from './Person';
 import ModalWindow from './ModalWindow';
-
 import EditPerson from './EditPerson';
 import NewPerson from './NewPerson';
 import './App.scss';
@@ -16,6 +16,8 @@ export default class App extends Component {
       view: viewMode.load,
       curEmployee: { firstName: '', lastName: '' },
       persons: [],
+      error: false,
+      bubbling: false,
     };
   }
 
@@ -26,6 +28,12 @@ export default class App extends Component {
         view: viewMode.list,
       });
     });
+  };
+
+  componentDidUpdate = (prevProps, prevState) => {
+    if (prevState.bubbling) {
+      this.setState({ bubbling: false });
+    }
   };
 
   getData = async (method, data) => {
@@ -82,7 +90,7 @@ export default class App extends Component {
   };
 
   render() {
-    const { view, curEmployee, persons } = this.state;
+    const { view, curEmployee, persons, bubbling, error } = this.state;
     return (
       <>
         {view == viewMode.load ? <Preloader /> : false}
@@ -128,6 +136,7 @@ export default class App extends Component {
             title={lang[langData.create]}
             persons={persons}
             view={view}
+            bubbling={bubbling}
             updateState={({ update }) => this.updateState({ update })}
             getData={this.getData}
             render={(update, bubbling) => (
@@ -152,6 +161,11 @@ export default class App extends Component {
             )}
           />
         )}
+        <Notification
+          bubbling={bubbling}
+          error={error}
+          message={'Error text'}
+        />
         <Sprite />
       </>
     );

@@ -1,0 +1,60 @@
+.notice {
+  position: fixed;
+  display: inline-block;
+  min-width: 200px;
+
+  &__item {
+    position: relative;
+    width: 0;
+    margin: auto;
+    margin-top: -33px;
+    margin-bottom: 14px;
+    color: transparent;
+    background: transparent;
+    animation: drop 0.4s forwards 0.2s, shift 1s forwards 1.5s;
+
+    &:last-of-type {
+      margin-bottom: unset;
+    }
+
+    &_wrong {
+      background: $red;
+    }
+
+    &_correct {
+      background: $green;
+    }
+  }
+
+  &__text {
+  }
+
+  &_top {
+    top: 15px;
+    transition: all 2s;
+  }
+
+  &_left {
+    left: 1rem;
+  }
+}
+
+@keyframes drop {
+  100% {
+    width: 100%;
+    margin-top: 0;
+    padding: 10px 20px;
+    color: white;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  }
+}
+
+@keyframes shift {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: 100px;
+    opacity: 0;
+  }
+}

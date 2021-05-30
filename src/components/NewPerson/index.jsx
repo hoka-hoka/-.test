@@ -2,18 +2,16 @@ import './NewPerson.scss';
 import React, { useEffect, useState } from 'react';
 import { lang, langData } from '../../constants';
 
-const NewPerson = ({ setFieldData, bubbling }) => {
+const NewPerson = ({ setFieldData }) => {
   const [fname, setFname] = useState('');
   const [lname, setLname] = useState('');
 
   useEffect(() => {
-    if (bubbling) {
-      setFieldData({
-        firstName: fname,
-        lastName: lname,
-      });
-    }
-  }, [bubbling]);
+    setFieldData({
+      firstName: fname,
+      lastName: lname,
+    });
+  }, [fname, lname]);
 
   const writeFieldData = (val, index) => {
     if (!index) {
@@ -42,7 +40,6 @@ const NewPerson = ({ setFieldData, bubbling }) => {
 
 NewPerson.defaultProps = {
   setFieldData: (f) => f,
-  bubbling: false,
 };
 
 export default NewPerson;
