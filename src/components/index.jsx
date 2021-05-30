@@ -21,10 +21,12 @@ export default class App extends Component {
         message: '',
       },
       bubbling: false,
+      returnFocus: document.body,
     };
   }
 
   componentDidMount = () => {
+    this.setState({ view: viewMode.load });
     this.getData('persons').then((resp) => {
       this.setState({
         persons: resp,
@@ -33,12 +35,24 @@ export default class App extends Component {
     });
   };
 
-  componentDidUpdate = (_, prevState) => {
+  resetBtnTrigger = (prevState) => {
     const { bubbling } = this.state;
     if (prevState.bubbling == bubbling) {
       return;
     }
     this.setState({ bubbling: false });
+  };
+
+  restoreFocus = (prevState) => {
+    const { returnFocus, view } = this.state;
+    if (prevState.view != view && view == viewMode.list) {
+      returnFocus.focus();
+    }
+  };
+
+  componentDidUpdate = (_, prevState) => {
+    this.resetBtnTrigger(prevState);
+    this.restoreFocus(prevState);
   };
 
   getData = async (method, data) => {
@@ -68,11 +82,16 @@ export default class App extends Component {
 
   addEmployee = (event) => {
     event.stopPropagation();
-    this.setState({ view: viewMode.add });
+    this.setState({ view: viewMode.add, returnFocus: event.target });
   };
 
-  editEmployee = (person) => {
-    this.setState({ view: viewMode.edit, curEmployee: person });
+  editEmployee = (person, target) => {
+    console.log(target);
+    this.setState({
+      view: viewMode.edit,
+      curEmployee: person,
+      returnFocus: target,
+    });
   };
 
   delEmployee = (person) => {
@@ -124,9 +143,9 @@ export default class App extends Component {
             <tbody>
               {persons.map((person) => (
                 <Person
-                  userData={person}
                   key={person.id}
-                  editEmployee={() => this.editEmployee(person)}
+                  userData={person}
+                  editEmployee={(elem) => this.editEmployee(person, elem)}
                   delEmployee={() => this.delEmployee(person)}
                 />
               ))}

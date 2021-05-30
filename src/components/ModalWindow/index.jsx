@@ -1,6 +1,7 @@
 import './ModalWindow.scss';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { lang, langData, viewMode } from '../../constants';
+import { interElems, focusArea } from './constants';
 
 const ModalWindow = ({
   title,
@@ -15,6 +16,9 @@ const ModalWindow = ({
     lastName: '',
     id: 0,
   });
+
+  const modal = useRef();
+  const focusedElems = useRef([]);
 
   const addPerson = () => {
     const { firstName, lastName } = fieldData;
@@ -100,24 +104,90 @@ const ModalWindow = ({
     updateState({ update: true })({ view: viewMode.list });
   };
 
+  const defFocusPosition = () => {
+    const findInteractElem = (elem) => {
+      for (let i = 0; i < elem.length; i++) {
+        const isInteractive = interElems.find(
+          (tagName) => elem[i].nodeName == tagName,
+        );
+        if (isInteractive) {
+          focusedElems.current.push(elem[i]);
+        }
+        if (elem[i].hasChildNodes()) {
+          findInteractElem(elem[i].children);
+        }
+      }
+    };
+    const childrens = modal.current.children;
+    if (!childrens) {
+      return;
+    }
+    findInteractElem(childrens);
+    if (focusedElems.current.length) {
+      focusedElems.current[0].focus();
+    }
+  };
+
+  const shiftFocusPosition = (event) => {
+    const { target } = event;
+    const elems = focusedElems.current;
+    if (target.dataset.focused === focusArea.end) {
+      elems[0].focus();
+    }
+    if (target.dataset.focused === focusArea.start) {
+      elems[elems.length - 1].focus();
+    }
+  };
+
+  useEffect(() => {
+    defFocusPosition();
+    document.addEventListener('click', (event) => {
+      if (modal?.current && !modal.current.contains(event.target)) {
+        comeBack();
+      }
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.keyCode == 27) {
+        comeBack();
+      }
+    });
+  }, []);
+
   return (
-    <div className="modal">
-      <div className="modal__overley" />
-      <div className="modal__cont">
-        <div className="modal__title">{title}</div>
-        <div className="modal__menu">
-          <button className="modal__back" type="button" onClick={comeBack}>
-            {lang[langData.back]}
-          </button>
-          {render(setFieldData)}
-          <div className="modal__btn">
-            <button className="modal__save" type="button" onClick={savePerson}>
-              {lang[langData.save]}
+    <>
+      <div
+        className="modal"
+        role="dialog"
+        aria-labelledby="dialog_label"
+        aria-modal="true"
+        ref={modal}
+        onFocus={shiftFocusPosition}
+      >
+        <div data-focused="start" tabIndex="0" />
+        <div className="modal__cont">
+          <h2 className="modal__title" id="dialog_label">
+            {title}
+          </h2>
+          <div className="modal__menu">
+            <button className="modal__back" type="button" onClick={comeBack}>
+              {lang[langData.back]}
             </button>
+            {render(setFieldData)}
+            <div className="modal__btn">
+              <button
+                className="modal__save"
+                type="button"
+                onClick={savePerson}
+              >
+                {lang[langData.save]}
+              </button>
+            </div>
           </div>
         </div>
+        <div data-focused="end" tabIndex="0" />
       </div>
-    </div>
+      <div className="modal__overley" />
+    </>
   );
 };
 

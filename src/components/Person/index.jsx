@@ -1,13 +1,10 @@
-import React, { useState } from 'react';
-import { lang, langData, viewMode } from '../../constants';
+import React from 'react';
 import './Person.scss';
 
 const Person = ({ userData, editEmployee, delEmployee }) => {
-  const [state, setState] = useState();
-
   const handlerEdit = (event) => {
     event.stopPropagation();
-    editEmployee();
+    editEmployee(event.target);
   };
 
   const handlerDel = (event) => {

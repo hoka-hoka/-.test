@@ -24,9 +24,11 @@
   }
 
   &__title {
+    margin: 0;
     padding: 5px;
     color: white;
     font-weight: bold;
+    font-size: rem(14);
 
     &:after {
       position: absolute;

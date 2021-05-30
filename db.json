@@ -8,25 +8,11 @@
       "apiId": "v1"
     },
     {
-      "firstName": "Руслан",
-      "lastName": "Бирюков",
-      "image": "img/ava.png",
-      "id": 2,
-      "apiId": "v1"
-    },
-    {
       "firstName": "Константин",
       "lastName": "Бочаров",
       "image": "img/ava.png",
       "apiId": "v1",
       "id": 3
-    },
-    {
-      "apiId": "v1",
-      "id": 4,
-      "firstName": "ass",
-      "lastName": "as",
-      "image": "img/ava.png"
     }
   ]
 }
