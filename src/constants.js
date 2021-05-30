@@ -5,6 +5,7 @@ const viewMode = {
   list: 'list',
   add: 'add',
   edit: 'edit',
+  error: 'error',
 };
 
 const lang = [

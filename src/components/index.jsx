@@ -58,8 +58,10 @@ export default class App extends Component {
         : {},
     );
     if (!resp?.ok) {
-      // this.setState({ error: true });
-      return new Error('Ответ на запрос пустой');
+      this.setState({ view: viewMode.error });
+      throw new Error(
+        `ответ по запросу ${baseURL}/api/v1/${method} имеет статус ${resp.status}`,
+      );
     }
     return resp.json();
   };
@@ -96,6 +98,9 @@ export default class App extends Component {
 
   render() {
     const { view, curEmployee, persons, bubbling, notice } = this.state;
+    if (view == viewMode.error) {
+      return false;
+    }
     return (
       <>
         {view == viewMode.load ? <Preloader /> : false}
