@@ -6,7 +6,7 @@
 `git clone https://github.com/hoka-hoka/ACS.test.git`
 
 Установка зависимостей  
-`npm install`
+`npm install`  
 `npm audit fix`
 
 Разработка  
