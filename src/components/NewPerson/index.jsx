@@ -1,6 +1,6 @@
-import './NewPerson.scss';
 import React, { useEffect, useState } from 'react';
 import { lang, langData } from '../../constants';
+import './NewPerson.scss';
 
 const NewPerson = ({ setFieldData }) => {
   const [fname, setFname] = useState('');

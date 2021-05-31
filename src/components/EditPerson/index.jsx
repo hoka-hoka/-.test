@@ -1,7 +1,6 @@
-import './EditPerson.scss';
 import React, { useState, useEffect } from 'react';
-
 import { lang, langData } from '../../constants';
+import './EditPerson.scss';
 
 const EditPerson = ({ curEmployee, setFieldData }) => {
   const [fname, setFname] = useState(curEmployee.firstName);

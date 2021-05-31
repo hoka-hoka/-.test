@@ -1,7 +1,7 @@
-import './ModalWindow.scss';
 import React, { useEffect, useRef, useState } from 'react';
 import { lang, langData, viewMode } from '../../constants';
 import { interElems, focusArea } from './constants';
+import './ModalWindow.scss';
 
 const ModalWindow = ({
   title,
