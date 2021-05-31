@@ -3,7 +3,7 @@
 ### Установка
 
 Клонирование проекта  
-`git clone https://github.com/hoka-hoka/ACS.test.git`
+`git clone https://github.com/hoka-hoka/ACS.test.git ./`
 
 Установка зависимостей  
 `npm install`  
