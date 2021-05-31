@@ -14,3 +14,5 @@
 
 Сборка  
 `npm run build`
+
+*Команда `npm run build` не запускает json-server. !!!!!!!!!!!!!!!!!!!!
