@@ -30,14 +30,18 @@ const ModalWindow = ({
     getData('persons', data).then((resp) => {
       if (!resp?.success) {
         updateState({ update: false }).notice = {
-          error: true,
-          message: lang[langData.empError],
+          ...{
+            error: true,
+            message: lang[langData.empError],
+          },
         };
       } else {
         persons.push(resp.d);
         updateState({ update: false }).notice = {
-          error: false,
-          message: lang[langData.createEmp],
+          ...{
+            error: false,
+            message: lang[langData.createEmp],
+          },
         };
       }
       updateState({ update: true })({ bubbling: true });
@@ -58,13 +62,17 @@ const ModalWindow = ({
     getData('persons', data).then((resp) => {
       if (!resp?.success) {
         updateState({ update: false }).notice = {
-          error: true,
-          message: lang[langData.fillingError],
+          ...{
+            error: true,
+            message: lang[langData.fillingError],
+          },
         };
       } else {
         updateState({ update: false }).notice = {
-          error: false,
-          message: lang[langData.update],
+          ...{
+            error: false,
+            message: lang[langData.update],
+          },
         };
       }
       updateState({ update: true })({ bubbling: true });
@@ -82,8 +90,10 @@ const ModalWindow = ({
     const isFilled = firstName && lastName;
     if (!isFilled) {
       updateState({ update: false }).notice = {
-        error: true,
-        message: lang[langData.fillingError],
+        ...{
+          error: true,
+          message: lang[langData.fillingError],
+        },
       };
       updateState({ update: true })({ bubbling: true });
     } else {
