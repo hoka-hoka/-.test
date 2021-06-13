@@ -6,7 +6,7 @@
     "dll": "webpack --config vendor.webpack.config.js",
     "start": "vue-cli-service serve",
     "json-server": "node server.js",
-    "serve": "npm-run-all -p start json-server",
+    "serve": "npm-run-all -p json-server start",
     "build": "npm run dll && vue-cli-service build"
   },
   "dependencies": {

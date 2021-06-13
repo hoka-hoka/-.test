@@ -9,65 +9,9 @@
     },
     {
       "apiId": "v1",
-      "id": 2,
-      "firstName": "София",
-      "lastName": "Медведева",
-      "image": "img/ava.png"
-    },
-    {
-      "apiId": "v1",
-      "id": 3,
-      "firstName": "Артём",
-      "lastName": "Сорокин",
-      "image": "img/ava.png"
-    },
-    {
-      "apiId": "v1",
-      "id": 4,
-      "firstName": "Роман",
-      "lastName": "Крылов",
-      "image": "img/ava.png"
-    },
-    {
-      "apiId": "v1",
-      "id": 5,
+      "id": 6,
       "firstName": "Иван",
       "lastName": "Андрианов",
-      "image": "img/ava.png"
-    },
-    {
-      "apiId": "v1",
-      "id": 6,
-      "firstName": "Милана",
-      "lastName": "Васильева",
-      "image": "img/ava.png"
-    },
-    {
-      "apiId": "v1",
-      "id": 7,
-      "firstName": "Илья",
-      "lastName": "Голованов",
-      "image": "img/ava.png"
-    },
-    {
-      "apiId": "v1",
-      "id": 8,
-      "firstName": "Ева",
-      "lastName": "Баранова",
-      "image": "img/ava.png"
-    },
-    {
-      "apiId": "v1",
-      "id": 9,
-      "firstName": "Диана",
-      "lastName": "Бочарова",
-      "image": "img/ava.png"
-    },
-    {
-      "apiId": "v1",
-      "id": 10,
-      "firstName": "Софья",
-      "lastName": "Андреева",
       "image": "img/ava.png"
     }
   ]

@@ -5,7 +5,7 @@ const { join } = require('path');
 const { create, defaults, router: jsonRouter } = jsonServer;
 
 const server = create();
-const router = jsonRouter(join(__dirname, 'db.json'));
+const router = jsonRouter('db.json');
 const middlewares = defaults();
 
 const PORT = 3001;
@@ -81,9 +81,9 @@ const delData = (db, req, res) => {
 
 server.post('/api/v1/persons', (req, res) => {
   const { db } = router;
-  if (req.body?.id && req.body?.del) {
+  if (req.body.id && req.body.del) {
     delData(db, req, res);
-  } else if (req.body?.id) {
+  } else if (req.body.id) {
     editData(db, req, res);
   } else {
     addData(db, req, res);
